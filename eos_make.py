@@ -77,8 +77,8 @@ class Eosmake(OP):
             task_num += 1
             os.chdir(cwd)
 
-        #with open('eos_make_log.txt','w+') as fout:
-        #   print('eos make end', fille=fout)
+        with open('eos_make_log.txt','w+') as fout:
+           print('eos make end', file=fout)
         
         return op_out
 
