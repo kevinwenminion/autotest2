@@ -1,0 +1,19 @@
+{
+    "structures":    ["confs/std-bcc"],
+    "interaction": {
+        "type":          "deepmd",
+        "model":         "frozen_model.pb",
+        "deepmd_version":"2.1.0",
+        "type_map":      {"V": 0}
+    },
+    "properties": 
+        {
+         "type":         "eos",
+         "skip":         true,
+         "vol_start":    0.6,
+         "vol_end":      1.41,
+         "vol_step":     0.01,
+          "cal_setting":  {"etol": 0,
+                         "ftol": 1e-10}
+        }
+}
