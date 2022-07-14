@@ -12,8 +12,11 @@ import re
 import shutil
 
 import numpy as np
-from monty.serialization import loadfn, dumpfn
 import dpgen.auto_test.lib.vasp as vasp
+from monty.serialization import loadfn, dumpfn
+from dpgen.auto_test.calculator import make_calculator
+from dpgen import dlog
+
 if "__file__" in locals():
     upload_packages.append(__file__)
 
@@ -25,8 +28,9 @@ class Eosmake(OP):
     def get_input_sign(cls):
         return OPIOSign({
             'eos' : Artifact(Path),
-            'library': Artifact(Path),
+            'interaction': Artifact(Path),
             'structure': Artifact(Path),
+            'potential': Artifact(Path)
         })
 
     @classmethod
@@ -46,6 +50,13 @@ class Eosmake(OP):
             "log": Path("eos_make_log.txt"),
         })
 
+        potential = op_in['potential']
+        inter_param_prop = loadfn(op_in['interaction'])
+        parameters = loadfn(op_in['eos'])
+        parameters['cal_type'] = parameters.get('cal_type', 'relaxation')
+        parameters['cal_setting'] = {"relax_pos": True,
+                                   "relax_shape": True,
+                                   "relax_vol": False}
         equi_contcar = loadfn(op_in['eos'])["relaxed_poscar"]
         vol_ratio = loadfn(op_in['eos'])["vol_ratio"]
         vol_start = loadfn(op_in['eos'])["vol_start"]
@@ -76,6 +87,16 @@ class Eosmake(OP):
             vasp.poscar_scale('POSCAR.orig', 'POSCAR', scale)
             task_num += 1
             os.chdir(cwd)
+        #os.chdir(op_out['eospath'])
+        #shutil.copy(potential, 'frozen_model.pb')
+        shutil.copy(potential, 'frozen_model.pb')
+
+        for kk in task_list:
+            poscar = os.path.join(kk, 'POSCAR')
+            inter = make_calculator(inter_param_prop, poscar)
+            inter.make_potential_files(os.path.abspath(kk))
+            #dlog.debug(prop.task_type())  ### debug
+            inter.make_input_file(kk, 'eos', parameters)
 
         with open('eos_make_log.txt','w+') as fout:
            print('eos make end', file=fout)
@@ -86,15 +107,18 @@ def test_python():
     wf = Workflow(name="eos-make")
 
     artifact0 = upload_artifact("eos.json")
-    artifact1 = upload_artifact("vasp.py")
+    artifact1 = upload_artifact("inter.json")
     artifact2 = upload_artifact("POSCAR")
+    artifact3 = upload_artifact("frozen_model.pb")
     print(artifact0)
     print(artifact1)
     print(artifact2)
+    print(artifact3)
     step = Step(
         name="step", 
         template=PythonOPTemplate(Eosmake, image="zhuoyli/dflow_test:eos"),
-        artifacts={"eos": artifact0, "library": artifact1, "structure": artifact2},
+        artifacts={"eos": artifact0, "interaction": artifact1,
+                   "structure": artifact2, "potential": artifact3},
     )
     wf.add(step)
     wf.submit()
