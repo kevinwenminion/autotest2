@@ -51,7 +51,6 @@ class Eosmake(OP):
             "eospath": Path("eos_calc"),
             "log": Path("eos_make_log.txt"),
         })
-        path_to_work = os.path.abspath(op_out['eospath'])
 
         parameter = loadfn(op_in['parameters'])["properties"]
         inter_param_prop = loadfn(op_in['parameters'])["interaction"]
@@ -101,6 +100,7 @@ class Eosmake(OP):
             parameter['init_from_suffix'] = parameter.get('init_from_suffix', '00')
             init_from_suffix = parameter['init_from_suffix']
 
+        path_to_work = os.path.abspath(op_out['eospath'])
         #path_to_equi = os.path.abspath(op_in['structure'])
         equi_contcar = os.path.abspath(op_in['structure'])
 
