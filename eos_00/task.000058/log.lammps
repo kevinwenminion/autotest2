@@ -1,0 +1,150 @@
+LAMMPS (29 Sep 2021 - Update 3)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+plugin load libdeepmd_lmp.so
+Loading plugin: deepmd pair style v2.0 by Han Wang
+Loading plugin: compute deeptensor/atom v2.0 by Han Wang
+Loading plugin: fix dplr v2.0 by Han Wang
+clear
+Unloading pair style deepmd
+Unloading compute style deepmd
+Unloading fix style deepmd
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+plugin load libdeepmd_lmp.so
+Loading plugin: deepmd pair style v2.0 by Han Wang
+Loading plugin: compute deeptensor/atom v2.0 by Han Wang
+Loading plugin: fix dplr v2.0 by Han Wang
+units 	metal
+dimension	3
+boundary	p p p
+atom_style	atomic
+box         tilt large
+read_data   conf.lmp
+Reading data file ...
+  triclinic box = (0.0000000 0.0000000 0.0000000) to (3.3406431 3.3406431 3.3406431) with tilt (0.0000000 0.0000000 0.0000000)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  2 atoms
+  read_data CPU = 0.012 seconds
+mass            1 95.940
+neigh_modify    every 1 delay 0 check no
+pair_style deepmd frozen_model.pb
+pair_coeff * *
+compute         mype all pe
+thermo          100
+thermo_style    custom step pe pxx pyy pzz pxy pxz pyz lx ly lz vol c_mype
+dump            1 all custom 100 dump.relax id type xs ys zs fx fy fz
+min_style       cg
+minimize        0.000000e+00 1.000000e-10 5000 500000
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+
+- USER-DEEPMD package:
+
+@article{Wang_ComputPhysCommun_2018_v228_p178,
+  author = {Wang, Han and Zhang, Linfeng and Han, Jiequn and E, Weinan},
+  doi = {10.1016/j.cpc.2018.03.016},
+  url = {https://doi.org/10.1016/j.cpc.2018.03.016},
+  year = 2018,
+  month = {jul},
+  publisher = {Elsevier {BV}},
+  volume = 228,
+  journal = {Comput. Phys. Commun.},
+  title = {{DeePMD-kit: A deep learning package for many-body potential energy representation and molecular dynamics}},
+  pages = {178--184}
+}
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:188)
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 11
+  ghost atom cutoff = 11
+  binsize = 5.5, bins = 1 1 1
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair deepmd, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 5.402 | 5.402 | 5.402 Mbytes
+Step PotEng Pxx Pyy Pzz Pxy Pxz Pyz Lx Ly Lz Volume c_mype 
+       0   -21.222215   -303970.17   -303970.17   -303970.17 4.2810024e-11 6.8162425e-11 6.038122e-11    3.3406431    3.3406431    3.3406431     37.28123   -21.222215 
+       1   -21.222215   -303970.17   -303970.17   -303970.17 3.5131908e-12 2.4252199e-11 9.2023234e-12    3.3406431    3.3406431    3.3406431     37.28123   -21.222215 
+Loop time of 0.00420189 on 1 procs for 1 steps with 2 atoms
+
+90.8% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -21.2222154917022  -21.2222154917022  -21.2222154917022
+  Force two-norm initial, final = 2.1628018e-10 2.8352434e-15
+  Force max component initial, final = 8.8296592e-11 1.3322676e-15
+  Final line search alpha, max atom move = 1.0000000 1.3322676e-15
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0041089  | 0.0041089  | 0.0041089  |   0.0 | 97.79
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 1.9312e-05 | 1.9312e-05 | 1.9312e-05 |   0.0 |  0.46
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 7.367e-05  |            |       |  1.75
+
+Nlocal:        2.00000 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:        853.000 ave         853 max         853 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         0.00000 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:      612.000 ave         612 max         612 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 612
+Ave neighs/atom = 306.00000
+Neighbor list builds = 0
+Dangerous builds not checked
+variable        N equal count(all)
+variable        V equal vol
+variable        E equal "c_mype"
+variable        tmplx equal lx
+variable        tmply equal ly
+variable        Pxx equal pxx
+variable        Pyy equal pyy
+variable        Pzz equal pzz
+variable        Pxy equal pxy
+variable        Pxz equal pxz
+variable        Pyz equal pyz
+variable        Epa equal ${E}/${N}
+variable        Epa equal -21.2222154917022/${N}
+variable        Epa equal -21.2222154917022/2
+variable        Vpa equal ${V}/${N}
+variable        Vpa equal 37.2812304257757/${N}
+variable        Vpa equal 37.2812304257757/2
+variable        AA equal (${tmplx}*${tmply})
+variable        AA equal (3.3406430935*${tmply})
+variable        AA equal (3.3406430935*3.3406430935)
+print "All done"
+All done
+print "Total number of atoms = ${N}"
+Total number of atoms = 2
+print "Final energy per atoms = ${Epa}"
+Final energy per atoms = -10.6111077458511
+print "Final volume per atoms = ${Vpa}"
+Final volume per atoms = 18.6406152128879
+print "Final Base area = ${AA}"
+Final Base area = 11.1598962781493
+print "Final Stress (xx yy zz xy xz yz) = ${Pxx} ${Pyy} ${Pzz} ${Pxy} ${Pxz} ${Pyz}"
+Final Stress (xx yy zz xy xz yz) = -303970.172440814 -303970.172440814 -303970.172440815 3.51319081884805e-12 2.42521992202972e-11 9.20232343133277e-12
+Unloading pair style deepmd
+Unloading compute style deepmd
+Unloading fix style deepmd
+Total wall time: 0:00:01
