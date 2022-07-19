@@ -1,0 +1,117 @@
+{
+    "api_version": "1.0",
+    "train" :[
+      {
+        "command": "dp",
+        "machine": {
+          "batch_type": "DpCloudServer",
+          "context_type": "DpCloudServerContext",
+          "local_root" : "./",
+          "remote_profile":{
+            "keep_backup": false,
+            "email": "zhuoyli@connect.hku.hk",
+            "password": "enoughDP715!",
+            "program_id":2315,
+              "input_data":{
+                  "api_version":2,
+                  "job_type": "indicate",
+                  "log_file": "00*/lcurve.out",
+                  "grouped":true,
+                  "job_name": "dpgen_tial_train",
+                  "disk_size": 100,
+                  "scass_type":"c12_m92_1 * NVIDIA V100",
+                  "platform": "ali",
+		  "checkpoint_files":["00*/model.ckpt*","00*/checkpoint"],
+                  "checkpoint_time":30,
+                  "image_name":"LBG_DeePMD-kit_2.0.1_v1",
+                  "on_demand":0
+              }
+          }
+        },
+        "resources": {
+          "number_node": 7573,
+          "local_root":"./",
+          "cpu_per_node": 8,
+          "gpu_per_node": 1,
+          "queue_name": "GPU",
+          "group_size": 1
+        }
+      }],
+    "model_devi":
+      [{
+        "command": "lmp -i input.lammps -v restart 0",
+        "machine": {
+          "batch_type": "DpCloudServer",
+          "context_type": "DpCloudServerContext",
+          "local_root" : "./",
+          "remote_profile":{
+            "keep_backup": false,
+	    "email": "zhuoyli@connect.hku.hk",
+            "password": "enoughDP715!",
+            "program_id":2315,
+              "input_data":{
+                "api_version":2,
+                "job_type": "indicate",
+                "log_file": "*/model_devi.out",
+                "grouped":true,
+                "job_name": "dpgen_tial_md",
+                "checkpoint_files":"sync_files",
+                "checkpoint_time":20,
+                "disk_size": 100,
+                "scass_type":"c16_m62_1 * NVIDIA T4",
+                "platform": "ali",
+                "image_name":"LBG_DeePMD-kit_2.0.1_v1",
+                "on_demand":0
+              }
+          }
+        },
+        "resources": {
+          "number_node": 500,
+          "local_root":"./",
+          "cpu_per_node": 12,
+          "gpu_per_node": 1,
+          "queue_name": "GPU",
+          "group_size": 60,
+	  "source_list": ["/opt/intel/oneapi/setvars.sh"]
+        }
+      }],
+    "fp":
+      [{
+        "command": "ulimit -s unlimited; mpirun -n 32 vasp_std",
+        "machine": {
+          "batch_type": "DpCloudServer",
+          "context_type": "DpCloudServerContext",
+          "local_root" : "./",
+          "remote_profile":{
+            "keep_backup": false,
+	    "email": "zhuoyli@connect.hku.hk",
+            "password": "enoughDP715!",
+            "program_id":2315,
+              "input_data":{
+                "api_version":2,
+                "job_type": "indicate",
+                "log_file": "task*/fp.log",
+                "grouped":true,
+                "job_name": "dpgen_tial_fp",
+                "checkpoint_files":"sync_files",
+                "checkpoint_time":27,
+                "disk_size": 100,
+                "scass_type":"c32_m128_cpu",
+                "platform": "ali",
+                "image_name":"LBG_vasp-5-4-4_v1",
+                "on_demand":0
+              }
+          }
+        },
+        "resources": {
+          "number_node": 500,
+          "cpu_per_node": 32,
+          "gpu_per_node": 0,
+          "queue_name": "CPU",
+          "group_size": 1,
+          "local_root":"./",
+	  "source_list": ["/opt/intel/oneapi/setvars.sh"]
+        }
+      }
+    ]
+  }
