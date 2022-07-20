@@ -209,7 +209,7 @@ def test_python():
     #print(artifact3)
     step = Step(
         name="step", 
-        template=PythonOPTemplate(Eosmake, image="zhuoyli/dflow_test:eos"),
+        template=PythonOPTemplate(Eosmake, image="zhuoyli/dflow_test:cn"),
         artifacts={"parameters": artifact0,
                    "structure": artifact1,
                    "potential": artifact2},
