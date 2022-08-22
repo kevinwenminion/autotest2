@@ -122,6 +122,7 @@ def test_python():
     artifact0 = upload_artifact("eos_00")
     print(artifact0)
     # print(artifact3)
+
     step = Step(
         name="step",
         template=PythonOPTemplate(Eospost, image="zhuoyli/dflow_test:eos"),
