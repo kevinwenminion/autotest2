@@ -1,7 +1,0 @@
-{
-	"relaxed_poscar": "./POSCAR",
-	"vol_ratio": true,
-	"vol_start": 0.8,
-        "vol_end": 1.2,
-	"vol_step": 0.01
-}

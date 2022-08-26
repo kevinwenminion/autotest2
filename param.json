@@ -11,8 +11,8 @@
          "type":         "eos",
          "skip":         true,
          "vol_start":    0.6,
-         "vol_end":      1.41,
-         "vol_step":     0.01,
+         "vol_end":      1.40,
+         "vol_step":     0.05,
           "cal_setting":  {"etol": 0,
                          "ftol": 1e-10}
         }
