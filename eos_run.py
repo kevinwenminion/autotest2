@@ -23,9 +23,9 @@ lbg_machine_dict = {
     "context_type": "LebesgueContext",
     "local_root" : "./",
     "remote_profile":{
-        "email": "zhuoyli@connect.hku.hk",
-        "password": "enoughBor715!",
-        "program_id": 2315,
+        "email": "xxxxxxxx@xxxx",
+        "password": "xxxxxx!",
+        "program_id": xxxx,
         "input_data":{
             "api_version":2,
             "job_type": "indicate",
@@ -101,7 +101,7 @@ def main():
 
     #define dispatcher
     dispatcher_executor = DispatcherExecutor(
-        host="127.0.0.1", port="2746",
+        host="YOUR_HOST", port="YOUR_PORT",
         machine_dict=lbg_machine_dict,
         resources_dict=lbg_resource_dict)
 
