@@ -89,38 +89,6 @@ class RunProperty(OP):
         shutil.copytree(path_to_work, op_out["out_tasks"])
         return op_out
 
-
-# def test_python():
-#     wf = Workflow(name="run")
-#
-#     artifact0 = upload_artifact("eos_calc")
-#     print(artifact0)
-#     # print(artifact3)
-#     dispatcher_executor = DispatcherExecutor(
-#         host="127.0.0.1", port="2746",
-#         machine_dict=lbg_machine_dict,
-#         resources_dict=lbg_resource_dict)
-#     step = Step(
-#         name="step",
-#         template=PythonOPTemplate(RunProperty,
-#                                   image="zhuoyli/dflow_test:eos",
-#                                   command=['python3']),
-#         artifacts={"workfile": artifact0}, executor=dispatcher_executor,
-#         util_command=['python3']
-#     )
-#     wf.add(step)
-#     wf.submit()
-#
-#     while wf.query_status() in ["Pending", "Running"]:
-#         time.sleep(1)
-#
-#     assert (wf.query_status() == "Succeeded")
-#     step = wf.query_step(name="step")[0]
-#     assert (step.phase == "Succeeded")
-#
-#     print(download_artifact(step.outputs.artifacts["eos_calc_out"]))
-
-
 def main():
     from eos_make_post import (EosMake, EosPost)
     # define input artifacts
