@@ -142,11 +142,11 @@ def main():
         time.sleep(1)
 
     assert (wf.query_status() == "Succeeded")
-    step_post = wf.query_step(name="step_post")[0]
-    assert (step_post.phase == "Succeeded")
+    step = wf.query_step(name="post-eos")[0]
+    assert (step.phase == "Succeeded")
 
-    print(download_artifact(step_post.outputs.artifacts["result_json"]))
-    print(download_artifact(step_post.outputs.artifacts["result_out"]))
+    download_artifact(step.outputs.artifacts["result_json"])
+    download_artifact(step.outputs.artifacts["result_out"])
 
 if __name__ == "__main__":
     main()
