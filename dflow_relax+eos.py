@@ -8,7 +8,7 @@ lbg_resource_dict = {
     "number_node": 1,
     "cpu_per_node": 8,
     "gpu_per_node": 1,
-    "queue_name": "eosflow_run",
+    "queue_name": "dflow_run",
     "group_size": 1,
     "source_list": ["/opt/deepmd-kit-2.0.1"]
     # "source_list": ["/opt/intel/oneapi/setvars.sh"]
@@ -18,15 +18,15 @@ lbg_machine_dict = {
     "context_type": "LebesgueContext",
     "local_root": "./",
     "remote_profile": {
-        "email": "zhuoyli@connect.hku.hk",
-        "password": "enoughBor715!",
-        "program_id": 2315,
+        "email": "*********",
+        "password": "********",
+        "program_id": 1234,
         "input_data": {
             "api_version": 2,
             "job_type": "indicate",
             "log_file": "log",
             "grouped": True,
-            "job_name": "eosflow_run",
+            "job_name": "dflow_run",
             "disk_size": 100,
             "scass_type": "c12_m92_1 * NVIDIA V100",
             "platform": "ali",
@@ -44,7 +44,7 @@ def main():
     from run_property import PropertyRun
     # define dispatcher
     dispatcher_executor = DispatcherExecutor(
-        host="127.0.0.1", port="2746",
+        host="YOUR_HOST", port="YOUR_PORT",
         machine_dict=lbg_machine_dict,
         resources_dict=lbg_resource_dict)
 
