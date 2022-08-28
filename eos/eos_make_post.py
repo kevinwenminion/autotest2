@@ -324,6 +324,3 @@ if __name__ == "__main__":
     assert (wf.query_status() == "Succeeded")
     step = wf.query_step(name="step")[0]
     assert (step.phase == "Succeeded")
-
-    # print(download_artifact(step.outputs.artifacts["eospath"]))
-    # print(download_artifact(step.outputs.artifacts["log"]))

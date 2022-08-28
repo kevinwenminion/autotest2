@@ -1,12 +1,7 @@
 import time
-from pathlib import Path
-import glob
-import os
-import shutil
 
 from dflow import Step, Workflow, download_artifact, upload_artifact
-from dflow.python import (OP, OPIO, Artifact, OPIOSign, PythonOPTemplate,
-                          upload_packages)
+from dflow.python import PythonOPTemplate
 from dflow.plugins.dispatcher import DispatcherExecutor
 
 lbg_resource_dict = {
@@ -23,9 +18,9 @@ lbg_machine_dict = {
     "context_type": "LebesgueContext",
     "local_root" : "./",
     "remote_profile":{
-        "email": "xxxxxxxx@xxxx",
-        "password": "xxxxxx!",
-        "program_id": xxxx,
+        "email": "zhuoyli@connect.hku.hk",
+        "password": "enoughBor715!",
+        "program_id": 2315,
         "input_data":{
             "api_version":2,
             "job_type": "indicate",
@@ -42,55 +37,10 @@ lbg_machine_dict = {
 }
 }
 
-if "__file__" in locals():
-    upload_packages.append(__file__)
-
-
-class RunProperty(OP):
-    def __init__(self):
-        pass
-
-    @classmethod
-    def get_input_sign(cls):
-        return OPIOSign({
-            'target_tasks': Artifact(Path)
-        })
-
-    @classmethod
-    def get_output_sign(cls):
-        return OPIOSign({
-            'out_tasks': Artifact(Path)
-        })
-
-    def run(self, path_to_work):
-        tmp_task_list = glob.glob(os.path.join(path_to_work, 'task.[0-9]*[0-9]'))
-        tmp_task_list.sort()
-        all_task = tmp_task_list
-        #run_tasks = util.collect_task(all_task, inter_type)
-        if len(all_task) == 0:
-            return
-        else:
-            for task in all_task:
-                os.chdir(task)
-                os.system("lmp -i in.lammps -v restart 0")
-
-    @OP.exec_sign_check
-    def execute(
-            self,
-            op_in: OPIO,
-    ) -> OPIO:
-        op_out = OPIO({
-            "out_tasks": Path('eos_calc_out')
-        })
-        path_to_work = op_in['target_tasks']
-        cwd = os.getcwd()
-        self.run(path_to_work)
-        os.chdir(cwd)
-        shutil.copytree(path_to_work, op_out["out_tasks"])
-        return op_out
 
 def main():
     from eos_make_post import (EosMake, EosPost)
+    from run_property import RunProperty
     # define input artifacts
     artifact0 = upload_artifact("param.json")
     artifact1 = upload_artifact("POSCAR")
@@ -101,14 +51,14 @@ def main():
 
     #define dispatcher
     dispatcher_executor = DispatcherExecutor(
-        host="YOUR_HOST", port="YOUR_PORT",
+        host="127.0.0.1", port="2746",
         machine_dict=lbg_machine_dict,
         resources_dict=lbg_resource_dict)
 
     # define Steps for make, run and post
     step_make = Step(
         name="make-eos",
-        template=PythonOPTemplate(EosMake, image="zhuoyli/dflow_test:eos"),
+        template=PythonOPTemplate(EosMake, image="zhuoyli/dflow_test:local_cn"),
         artifacts={"parameters": artifact0,
                    "structure": artifact1,
                    "potential": artifact2},
@@ -118,7 +68,7 @@ def main():
     step_run = Step(
         name="run-eos",
         template=PythonOPTemplate(RunProperty,
-                                  image="zhuoyli/dflow_test:eos",
+                                  image="zhuoyli/dflow_test:local_cn",
                                   command=['python3']),
         artifacts={"target_tasks": artifact_target_tasks}, executor=dispatcher_executor,
         util_command=['python3']
@@ -127,7 +77,7 @@ def main():
 
     step_post = Step(
         name="post-eos",
-        template=PythonOPTemplate(EosPost, image="zhuoyli/dflow_test:eos"),
+        template=PythonOPTemplate(EosPost, image="zhuoyli/dflow_test:local_cn"),
         artifacts={"result_tasks": artifact_out_tasks}
     )
 
