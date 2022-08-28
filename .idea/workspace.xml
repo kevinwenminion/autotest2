@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="80be4a04-1107-44a8-9459-5c73d59d4ef4" name="Changes" comment="fix query_step bug">
-      <change afterPath="$PROJECT_DIR$/relax_flow.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run_relaxation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eos_make_post.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eos_run.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/param.json" beforeDir="false" />
-    </list>
+    <list default="true" id="80be4a04-1107-44a8-9459-5c73d59d4ef4" name="Changes" comment="add relax workflow" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -177,7 +171,7 @@
       <updated>1661165271424</updated>
       <workItem from="1661165275331" duration="750000" />
       <workItem from="1661441506717" duration="25439000" />
-      <workItem from="1661516517831" duration="23875000" />
+      <workItem from="1661516517831" duration="24236000" />
     </task>
     <task id="LOCAL-00001" summary="rm tasks">
       <created>1661165384261</created>
@@ -228,7 +222,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661607078782</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add relax workflow">
+      <created>1661673067403</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1661673067403</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -263,7 +264,8 @@
     <MESSAGE value="add tested version devel" />
     <MESSAGE value="add tested version devel 1.1" />
     <MESSAGE value="fix query_step bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix query_step bug" />
+    <MESSAGE value="add relax workflow" />
+    <option name="LAST_COMMIT_MESSAGE" value="add relax workflow" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/eos_test$run_flow.coverage" NAME="run_flow Coverage Results" MODIFIED="1661666478763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eos" />
