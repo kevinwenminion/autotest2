@@ -83,7 +83,6 @@ class RelaxPost(OP):
             'relaxation_finished': Artifact(Path),
         })
 
-
     @OP.exec_sign_check
     def execute(
             self,
