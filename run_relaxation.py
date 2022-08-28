@@ -44,3 +44,7 @@ class RelaxRun(OP):
         os.chdir(cwd)
         shutil.copytree(path_to_relaxation, op_out["out_tasks"])
         return op_out
+
+
+if __name__ == "__main__":
+    pass

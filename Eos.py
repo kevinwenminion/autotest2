@@ -31,7 +31,7 @@ class EosMake(OP):
     def get_input_sign(cls):
         return OPIOSign({
             'parameters': Artifact(Path),
-            'structure': Artifact(Path),
+            'relaxation': Artifact(Path),
             'potential': Artifact(Path)
         })
 
@@ -99,8 +99,9 @@ class EosMake(OP):
             init_from_suffix = parameter['init_from_suffix']
 
         path_to_work = os.path.abspath(op_out['tasks'])
-        # path_to_equi = os.path.abspath(op_in['structure'])
-        equi_contcar = os.path.abspath(op_in['structure'])
+        path_to_equi = os.path.abspath(op_in['relaxation']/'relax_task')
+
+        equi_contcar = os.path.join(path_to_equi, 'CONTCAR')
 
         if 'start_confs_path' in parameter and os.path.exists(parameter['start_confs_path']):
             init_path_list = glob.glob(os.path.join(parameter['start_confs_path'], '*'))
@@ -109,8 +110,7 @@ class EosMake(OP):
                 struct_init_name_list.append(ii.split('/')[-1])
             struct_output_name = path_to_work.split('/')[-2]
             assert struct_output_name in struct_init_name_list
-            path_to_equi = os.path.abspath(os.path.join(parameter['start_confs_path'],
-                                                        struct_output_name, 'relaxation', 'relax_task'))
+            #path_to_equi = os.path.abspath(os.path.join(parameter['start_confs_path'], struct_output_name, 'relaxation', 'relax_task'))
 
         cwd = os.getcwd()
         task_list = []
@@ -155,7 +155,6 @@ class EosMake(OP):
                 else:
                     dlog.info('treat vol_start and vol_end as relative volume')
                 # equi_contcar = os.path.join(path_to_equi, 'CONTCAR')
-                equi_contcar = os.path.abspath(op_in['structure'])
                 if not os.path.exists(equi_contcar):
                     raise RuntimeError("please do relaxation first")
                 vol_to_poscar = vasp.poscar_vol(equi_contcar) / vasp.poscar_natoms(equi_contcar)
@@ -299,28 +298,4 @@ class EosPost(OP):
 
 
 if __name__ == "__main__":
-    wf = Workflow(name="eos-make")
-
-    artifact0 = upload_artifact("param.json")
-    artifact1 = upload_artifact("POSCAR")
-    artifact2 = upload_artifact("frozen_model.pb")
-    print(artifact0)
-    print(artifact1)
-    print(artifact2)
-    # print(artifact3)
-    step = Step(
-        name="step",
-        template=PythonOPTemplate(EosMake, image="zhuoyli/dflow_test:cn"),
-        artifacts={"parameters": artifact0,
-                   "structure": artifact1,
-                   "potential": artifact2},
-    )
-    wf.add(step)
-    wf.submit()
-
-    while wf.query_status() in ["Pending", "Running"]:
-        time.sleep(1)
-
-    assert (wf.query_status() == "Succeeded")
-    step = wf.query_step(name="step")[0]
-    assert (step.phase == "Succeeded")
+    pass
